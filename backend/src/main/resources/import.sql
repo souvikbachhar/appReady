@@ -1,0 +1,1 @@
+INSERT INTO public.user_master (user_id, user_name, user_password, created_date, modified_time, isadmin, first_name, last_name) VALUES (1, 'admin', '$2a$12$NEvcJe5Qnvu8aoaC8uZ3T..y0ZWdf9B6C0ilgSWeJc4ijlv4rXF26', '2020-01-25 13:38:09.871192', NULL, true, 'John', 'Smith');
