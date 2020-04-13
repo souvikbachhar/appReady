@@ -13,6 +13,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CommonModule } from '@angular/common';
 import { MyHttpCallInterceptor } from './interceptor';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { MyHttpCallInterceptor } from './interceptor';
     ReactiveFormsModule,
     CustomMaterialModule ,
     HttpClientModule,
-    BlockUIModule.forRoot() 
+    BlockUIModule.forRoot()
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

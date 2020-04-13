@@ -3,40 +3,40 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse, Htt
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
-
+import * as CryptoJS from 'crypto-js';
 
 @Injectable()
 export class MyHttpCallInterceptor implements HttpInterceptor {
+    secretKey = "souvik";
+    
     @BlockUI() blockUI: NgBlockUI;
     constructor(private injector: Injector) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {        
-        //console.log('Intercepted request' + request.url);
         this.blockUI.start('Loading...'); 
-        // const authReq = request.clone({ headers: new HttpHeaders({
-        //   'Content-Type':  'application/json',
-        //   'Authorization': 'Basic ' + btoa('a:a')
-        // })
-        //     });
-
+        request = request.clone({
+          setHeaders: {
+            Authorization: 'Basic ' + btoa('a:a')
+          },
+          body: CryptoJS.AES.encrypt(JSON.stringify(request.body), this.secretKey.trim()).toString()
+        });
+         
+        //cannot be done on whole body to be done to parameters one by one 
         return next.handle(request)
         .pipe(
             tap(response=>{
                 if (response instanceof HttpResponse) {
-                   // console.log(response.body);
+                  //CryptoJS.AES.decrypt(textToDecrypt, this.secretKey.trim()).toString(CryptoJS.enc.Utf8);
                     this.blockUI.stop();
                 }
             }),
             catchError((error: HttpErrorResponse) => {
               let errorMessage = '';
               if (error.error instanceof ErrorEvent) {
-                // client-side error
                 errorMessage = `Error: ${error.error.message}`;
               } else {
-                // server-side error
                 errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
               }
-            //  window.alert(errorMessage);
             console.log(errorMessage);
             this.blockUI.stop();
               return throwError(errorMessage);

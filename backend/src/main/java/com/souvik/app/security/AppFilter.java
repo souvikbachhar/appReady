@@ -1,4 +1,4 @@
-package com.souvik.app.filter;
+package com.souvik.app.security;
 
 import java.io.IOException;
 
@@ -9,11 +9,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-@Component
-public class AppFilter implements Filter{
-
+//@Component
+public class AppFilter implements Filter {
+	
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {

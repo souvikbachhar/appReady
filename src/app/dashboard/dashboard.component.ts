@@ -6,12 +6,21 @@ declare var $: any;
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit,AfterViewInit {
-
+  eventText = '';
   constructor() { }
 
   ngOnInit() {
   }
-
+  homeSwipe(evt){
+    //console.log(evt.target.tagName);
+    if (evt.target.tagName =='DIV'){
+      $('#sidebar').addClass('active');
+      $('.overlay').addClass('active');
+    }
+    if (evt.target.tagName =='IMG'){
+      $('#carouselExampleIndicators').carousel('prev');
+    }
+  }
   ngAfterViewInit() {
     $(document).ready(function () {
       $("#sidebar").mCustomScrollbar({
@@ -31,4 +40,15 @@ export class DashboardComponent implements OnInit,AfterViewInit {
       });
   });
  }
+
+ 
+
+  onSwipe(evt) {
+      const x = Math.abs(evt.deltaX) > 40 ? (evt.deltaX > 0 ? 'right' : 'left'):'';
+      const y = Math.abs(evt.deltaY) > 40 ? (evt.deltaY > 0 ? 'down' : 'up') : '';
+
+      this.eventText += `${x} ${y}<br/>`;
+      $('#carouselExampleIndicators').carousel('next');
+     // console.log(evt);
+  }
 }
